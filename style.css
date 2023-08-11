@@ -1,0 +1,55 @@
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    background: linear-gradient(317deg, #0c0613 0%, #1E1E1E 100%);
+    margin: 0;
+    padding: 0;
+}
+
+.menubar {
+    display: flex;
+    background-color: rgb(34, 34, 34);
+    height: auto;
+    width: auto;
+    margin: 0;
+    padding: 20px;
+}
+.menubar h1 {
+    cursor: default;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 0;
+    width: fit-content;
+    height: fit-content;
+    color: rgb(184, 184, 184);
+    transition: color 0.5s, text-shadow 0.5s;
+    margin-right: 45px;
+}
+
+.menubar h1:hover {
+    color: rgb(255, 255, 255);
+    text-shadow: 0 0 20px rgb(255, 255, 255);
+}
+
+.menubar button {
+    border: none;
+    background: rgba(168, 168, 168, 0.219);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    margin-right: 20px;
+    width: fit-content;
+    height: fit-content;
+    padding: 15px;
+    font-size: large;
+    border-radius: 10px;
+    transition: background 0.5s, transform 0.5s, box-shadow 0.5s;
+}
+
+.menubar button:hover {
+    background: linear-gradient(153deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.23) 48.56%, rgba(255, 255, 255, 0.00) 100%);
+    transform: scale(1.1);
+    box-shadow: 0 0 13px rgb(0, 0, 0);
+}
