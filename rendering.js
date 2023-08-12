@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     camera.position.z = 5;
     cube.name = "cube";
-    cube.selected = false;
+    selected = null;
     
     function animate() {
       requestAnimationFrame( animate );
@@ -36,17 +36,17 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if(intersect.length > 0){
             intersect[0].object.material.color.set(0x00ffcc);
-            cube.selected = true
+            selected = cube;
         }else {
             cube.material.color.set(0x00ff00);
-            cube.selected = false;
+            selected = null;
         }
 
     }
     this.addEventListener('click', onMouseMove);
     this.addEventListener('keyup',function(k){
-        if (k.name == 'Delete' && cube.selected == true){
-            scene.remove(cube.name);
+        if (k.name == 'Delete'){
+            scene.remove(selected.name);
         }
     }
     // renderer.domElement.addEventListener('click', onclick, true);
