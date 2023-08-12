@@ -45,8 +45,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     this.addEventListener('click', onMouseMove);
     this.addEventListener('keyup',function(k){
-        if (k.name = 'Delete'){
-            scene.remove(cube);
+        if (k.name == 'Delete' && cube.selected == true){
+            scene.remove(cube.name);
         }
     }
     // renderer.domElement.addEventListener('click', onclick, true);
