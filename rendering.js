@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     camera.position.z = 5;
     cube.name = "cube";
+    selected = null;
     
     function animate() {
       requestAnimationFrame( animate );
@@ -35,13 +36,19 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if(intersect.length > 0){
             intersect[0].object.material.color.set(0x00ffcc);
-            
+            selected = cube;
         }else {
             cube.material.color.set(0x00ff00);
+            selected = null;
         }
 
     }
     this.addEventListener('click', onMouseMove);
+    this.addEventListener('keyup',function(k){
+        if (k.name == 'Delete'){
+            scene.remove(selected.name);
+        }
+    }
     // renderer.domElement.addEventListener('click', onclick, true);
     // var selectedobject;
     // var raycaster = new THREE.Raycaster();
