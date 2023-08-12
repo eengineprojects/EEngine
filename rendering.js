@@ -18,8 +18,6 @@ document.addEventListener('DOMContentLoaded', function() {
     var selectedobject;
     
     camera.position.z = 5;
-    cube.name = "cube";
-    selected = null;
     
     function animate() {
       requestAnimationFrame( animate );
@@ -43,7 +41,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if(intersect.length > 0){
             selectedobject = intersect[0].object;
             intersect[0].object.material.color.set(0x00ffcc);
-            selected = cube;
         }else {
             selectedobject.material.color.set(0x00ff00);
         }
