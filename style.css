@@ -53,3 +53,12 @@ body {
     transform: scale(1.1);
     box-shadow: 0 0 13px rgb(0, 0, 0);
 }
+
+#render {
+    position: absolute;
+    top: 10%;
+    left: 13%;
+    width: 75%;
+    height: 75%;
+    background-color: #0c0613;
+}
