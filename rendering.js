@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const intersect = raycaster.intersectObjects(scene.children);
         
         if(intersect.length > 0){
-            intersect[0].object.material.color.set(0xff0000);
+            intersect[0].object.material.color.set(0x00ffcc);
             
         }else {
             cube.material.color.set(0x00ff00);
