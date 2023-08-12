@@ -1,22 +1,35 @@
+import * as THREE from 'three';
+
 document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('render');
     const scene = new THREE.Scene();
     const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('render') });
+
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     const raycaster = new THREE.Raycaster();
     const pointer = new THREE.Vector2();
     const canvasBounds = canvas.getBoundingClientRect();
+    
 
 
     
     renderer.setSize(renderer.domElement.clientWidth, renderer.domElement.clientHeight);
   
     const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-    const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+    const material = new THREE.MeshLambertMaterial( {color: 0x00ff00, transparent: true} );
     const cube = new THREE.Mesh( geometry, material );
-    scene.add( cube );
-    var selectedobject;
+    var objects = []
+    const ambient = new THREE.AmbientLight(0xffffff, 0.2);
+    scene.add(ambient);
+    const DL = new THREE.DirectionalLight(0xffffff, 1.8, 5);
+    scene.add(DL);
+    DL.position.set(0, 2, 0);
     
+    scene.add( cube );
+    objects.push(cube);
+    var selectedobject;
+    var haswire = false;
+    var wire; 
     camera.position.z = 5;
     
     function animate() {
@@ -26,43 +39,46 @@ document.addEventListener('DOMContentLoaded', function() {
       renderer.render( scene, camera );
     }
     animate();
-
-    // document.addEventListener('click', function(event){
-    //     console.log(event);
-    // })
+    
     function onMouseMove(event){
+        var intersect = null;
         pointer.x = ((event.clientX - canvasBounds.left) / canvas.clientWidth) * 2 - 1;
         pointer.y = -((event.clientY - canvasBounds.top) / canvas.clientHeight) * 2 + 1;
         
 
         raycaster.setFromCamera(pointer, camera);
-        const intersect = raycaster.intersectObjects(scene.children);
-        
+        intersect = raycaster.intersectObjects(objects, false);
+        // check if wireframe in intersect
+       
         if(intersect.length > 0){
+            
+            console.log(intersect)
+            
             selectedobject = intersect[0].object;
-            intersect[0].object.material.color.set(0x00ffcc);
+            // check if intersect[0].object has the wireframe property
+            if (haswire == false) {
+                const geo = new THREE.EdgesGeometry( intersect[0].object.geometry );
+                const mat = new THREE.LineBasicMaterial( { color: 0x00ffea} );
+                const wireframe = new THREE.LineSegments( geo, mat );
+                selectedobject.add(wireframe);
+                haswire = true;
+                selectedobject.material.opacity = 0.5
+            }
+                
         }else {
-            selectedobject.material.color.set(0x00ff00);
-        }
+            haswire = false;
+            selectedobject.material.opacity = 1
+            // remove wireframe
+            console.log(selectedobject.children)
+            selectedobject.remove(selectedobject.children[0]);
+            selectedobject = null;
+            wire = null
+            console.log(selectedobject)
+            console.log(haswire)
 
+        }
     }
+
     canvas.addEventListener('click', onMouseMove);
-    // renderer.domElement.addEventListener('click', onclick, true);
-    // var selectedobject;
-    // var raycaster = new THREE.Raycaster();
-    
-    // function onclick(event) {
-    //     var mouse = new THREE.Vector2();
-    //     raycaster.setFromCamera(mouse, camera);
-    //     var intersects = raycaster.intersectObjects(scene.children);
-    //     if (intersects.length > 0){
-    //         if(intersects[0].object === cube){
-    //             selectedobject = intersects[0].object;
-    //             alert(selectedobject.name);
-    //         }
-    //     }
-        
-        
-    // }
   });
   
