@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const canvasBounds = canvas.getBoundingClientRect();
     let isMouseDown = false;
     let previousMouseX = 0;
+    let previousMouseY = 0;
 
 
     
@@ -38,6 +39,16 @@ document.addEventListener('DOMContentLoaded', function() {
     var haswire = false;
     var wire; 
     camera.position.z = 5;
+
+
+    const helpergrid = new THREE.GridHelper(10, 10);
+    scene.add(helpergrid);
+    helpergrid.position.y = -1
+
+    const xyz = new THREE.AxesHelper( 5 );
+    scene.add( xyz );
+    xyz.position.y = -1
+
     
     function animate() {
       requestAnimationFrame( animate );
@@ -111,31 +122,33 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function onMouseDown(event) {
-        if (event.button === 0) { // Left mouse button
+        if (event.button === 0) {
             isMouseDown = true;
             previousMouseX = event.clientX;
+            previousMouseY = event.clientY;
         }
     }
-    
-    // Function to handle mouse up event
     function onMouseUp(event) {
-        if (event.button === 0) { // Left mouse button
+        if (event.button === 0) {
             isMouseDown = false;
         }
     }
-    
-    // Function to handle mouse move event
+
     function onMouseMove(event) {
         if (isMouseDown) {
-            const delta = event.clientX - previousMouseX;
+            const deltaX = event.clientX - previousMouseX;
+            const deltaY = event.clientY - previousMouseY;
             previousMouseX = event.clientX;
-    
-            // Adjust camera rotation based on mouse movement
-            camera.rotation.y += delta * 0.01; // Adjust rotation sensitivity as needed
+            previousMouseY = event.clientY;
+
+            const rotationSpeed = 0.005;
+
+            camera.rotation.x -= deltaY * rotationSpeed;
+            camera.rotation.y -= deltaX * rotationSpeed;
         }
     }
-    
-    // Add event listeners to the document
+
+
     document.addEventListener('mousedown', onMouseDown);
     document.addEventListener('mouseup', onMouseUp);
     document.addEventListener('mousemove', onMouseMove);
@@ -148,14 +161,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
         raycaster.setFromCamera(pointer, camera);
         intersect = raycaster.intersectObjects(objects, false);
-        // check if wireframe in intersect
        
         if(intersect.length > 0){
             
             console.log(intersect)
             
             selectedobject = intersect[0].object;
-            // check if intersect[0].object has the wireframe property
             if (haswire == false) {
                 const geo = new THREE.EdgesGeometry( intersect[0].object.geometry );
                 const mat = new THREE.LineBasicMaterial( { color: 0x00ffea} );
@@ -169,7 +180,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (selectedobject != null){
                 haswire = false;
                 selectedobject.material.opacity = 1
-                // remove wireframe
                 console.log(selectedobject.children)
                 selectedobject.remove(selectedobject.children[0]);
                 selectedobject = null;
