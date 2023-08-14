@@ -50,13 +50,11 @@ document.addEventListener('DOMContentLoaded', function() {
     xyz.position.y = -1
 
     
-    function animate() {
-      requestAnimationFrame( animate );
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.01;
+    function render() {
+      requestAnimationFrame( render );
       renderer.render( scene, camera );
     }
-    animate();
+    render();
     
     document.addEventListener('keydown', function(event) {
         if (event.key === 's' || event.key === 'S') {
@@ -122,33 +120,40 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function onMouseDown(event) {
-        if (event.button === 0) {
+        if (event.button === 0) { // Left mouse button
             isMouseDown = true;
             previousMouseX = event.clientX;
             previousMouseY = event.clientY;
         }
     }
+    
+    // Function to handle mouse up event
     function onMouseUp(event) {
-        if (event.button === 0) {
+        if (event.button === 0) { // Left mouse button
             isMouseDown = false;
         }
     }
-
+    
+    // Function to handle mouse move event
     function onMouseMove(event) {
         if (isMouseDown) {
             const deltaX = event.clientX - previousMouseX;
             const deltaY = event.clientY - previousMouseY;
             previousMouseX = event.clientX;
             previousMouseY = event.clientY;
-
-            const rotationSpeed = 0.005;
-
-            camera.rotation.x -= deltaY * rotationSpeed;
-            camera.rotation.y -= deltaX * rotationSpeed;
+    
+            // Calculate the rotation angles based on the mouse movement
+            const rotationSpeed = 0.005; // Adjust the rotation speed as needed
+    
+            const angleX = -deltaY * rotationSpeed;
+            const angleY = -deltaX * rotationSpeed;
+    
+            camera.rotateX(angleX);
+            camera.rotateY(angleY);
         }
     }
-
-
+    
+    // Add event listeners to the document
     document.addEventListener('mousedown', onMouseDown);
     document.addEventListener('mouseup', onMouseUp);
     document.addEventListener('mousemove', onMouseMove);
