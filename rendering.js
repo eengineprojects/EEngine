@@ -2,6 +2,7 @@
 import * as THREE from 'three';
 
 
+
 // check if the canvas is loaded
 document.addEventListener('DOMContentLoaded', function() {
     // load in the things you need at the start
