@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import * as THREE from 'node_modules/three';
 
 document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('render');
