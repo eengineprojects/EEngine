@@ -1,5 +1,5 @@
 // importing three rendering library
-import * as THREE from './node_modules/three/build/three.module.js';
+import * as THREE from '/node_modules/three/build/three.module.js';
 
 
 // check if the canvas is loaded
