@@ -1,5 +1,6 @@
 // importing three rendering library
-import * as THREE from 'node_modules/three';
+import * as THREE from './node_modules/three/build/three.module.js';
+
 
 // check if the canvas is loaded
 document.addEventListener('DOMContentLoaded', function() {
