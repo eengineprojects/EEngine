@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <!--import material-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <title>EEngine</title>
 </head>
 <body>
-    <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
-
     <script type="importmap">
     {
         "imports": {
@@ -17,12 +17,21 @@
         }
     }
     </script>
+    
+    <input placeholder="oo">
+    <!--Global Variables and Functions-->
+    <script>
+        var currentMode = "Editor Mode";
+    </script>
     <script type="module" src="/rendering.js"></script>
     <script src="script.js"></script>
+    <script src="mode.js"></script>
     <div class="menubar">
         <h1>EEngine</h1>
         <button id="import">Import</button>
+        <button id="mode" onclick="switchMode()">Editor Mode</button>
         <button id="export">Export</button>
+        <button id="NewCube">New Cube</button>
 
     </div>
     <canvas id="render">Sorry but device or browser does not support rendering with canvas</canvas>
