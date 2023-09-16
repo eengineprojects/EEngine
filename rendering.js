@@ -18,8 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let previousMouseX = 0;
     let previousMouseY = 0;
     let inCanvas = false;
-
-    
+    let oldCameraPosition;
 
     // function to check if the canvas was clicked on or not
     document.addEventListener('click', function(event){
@@ -76,7 +75,9 @@ document.addEventListener('DOMContentLoaded', function() {
     scene.add( xyz );
     xyz.position.y = -1
 
-    
+    // movement helpers
+    let ArrowX, ArrowY, ArrowZ;
+
     // render the scene constantly
     function render() {
       requestAnimationFrame( render );
@@ -115,6 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // keyboard controls for the camera
     document.addEventListener('keydown', function(event) {
         if (document.activeElement !== document.getElementsByTagName('input')[0]) {
+            
             if (event.key === 's' || event.key === 'S') {
                 const movementSpeed = 0.1;  // Adjust the movement speed as needed
         
@@ -231,7 +233,9 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('M was pressed');
         }
     })
-
+    setInterval(function(){
+        oldCameraPosition = camera.position
+    }, 1000)
     // handle selecting objects
     function onMouseClick(event){
         const canvas = document.getElementById('render'); // Replace 'myCanvas' with the ID of your canvas element
@@ -258,25 +262,37 @@ document.addEventListener('DOMContentLoaded', function() {
                 selectedobject.add(wireframe);
                 haswire = true;
                 selectedobject.material.opacity = 0.9
+                ArrowX = new THREE.ArrowHelper( new THREE.Vector3(1, 0, 0), selectedobject.position, 3, 0xfc0303, 0.7 );
+                ArrowY = new THREE.ArrowHelper( new THREE.Vector3(0, 1, 0), selectedobject.position, 3, 0xfce803, 0.7 );
+                ArrowZ = new THREE.ArrowHelper( new THREE.Vector3(0, 0, 1), selectedobject.position, 3, 0x036ffc, 0.7 );
+                scene.add(ArrowX);
+                scene.add(ArrowY);
+                scene.add(ArrowZ);
+
             }
                 // if the user clicks away from the object then deselect it
         }else {
-            if (selectedobject != null){
-                haswire = false;
-                selectedobject.material.opacity = 1
-                console.log(selectedobject.children)
-                selectedobject.remove(selectedobject.children[0]);
-                selectedobject = null;
-                wire = null
-                console.log(selectedobject)
-                console.log(haswire)
+            if (selectedobject != null) {
+                if (oldCameraPosition == camera.position)
+                    haswire = false;
+                    selectedobject.material.opacity = 1
+                    console.log(selectedobject.children)
+                    selectedobject.remove(selectedobject.children[0]);
+                    selectedobject = null;
+                    wire = null
+                    console.log(selectedobject)
+                    console.log(haswire)
+                    scene.remove(ArrowX);
+                    scene.remove(ArrowY);
+                    scene.remove(ArrowZ);
+
             }
 
         }
+        
         // Check if canvas is selected
 
     }
-    // enable selecting
     canvas.addEventListener('click', onMouseClick);
   });
   
